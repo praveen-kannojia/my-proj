@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component,OnInit } from '@angular/core';
 import { FormsModule }   from '@angular/forms';
 import {Hero} from './hero';
-import {HeroDetailComponent} from './hero-detail.component'
+import {HeroDetailComponent} from './hero-detail.component';
+import { HeroService } from './hero.service';
 
 
 const listHeroes : Hero[] = [
@@ -16,12 +17,26 @@ const listHeroes : Hero[] = [
 @Component({
     selector: 'my-app',    
     templateUrl: 'app/app.component.html',
-    styleUrls : ['app/app.component.css']
-    
+    styleUrls : ['app/app.component.css'],
+    providers: [HeroService]
           
 })
 
-export class AppComponent {
+export class AppComponent implements OnInit {
+
+    constructor(private heroService: HeroService) { 
+
+    }
+
+    ngOnInit() : void{
+        this.getHeroes();
+    }
+
+      getHeroes(): void {
+    this.heroes = this.heroService.getHeroes();
+  }
+
+
   title = 'Tour of Heroes';  
   onSelect(h: Hero){
       this.selectedHero = h;
